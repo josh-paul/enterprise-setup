@@ -23,7 +23,7 @@ resource "aws_db_instance" "circle_postgres" {
 }
 
 resource "aws_db_subnet_group" "default" {
-    name       = "circle-dbsubnet"
+    name       = "${var.prefix}_dbsubnet"
     subnet_ids = ["${var.aws_subnet_id}"]
 
     Tags {
@@ -34,16 +34,16 @@ resource "aws_db_subnet_group" "default" {
 }
 
 resource "aws_security_group" "circle_postgres_sg" {  
-  name        = "circle_postgres_sg"
+  name        = "${var.prefix}_postgres_sg"
   description = "RDS postgres servers (terraform-managed)"
-  vpc_id      = "${module.vpc.vpc_id}"
+  #vpc_id      = "${module.vpc.vpc_id}"
 
   # Only postgres in
   ingress {
     from_port   = 5432
     to_port     = 5432
     protocol    = "tcp"
-    cidr_blocks = ["${var.cidr}"]
+    #cidr_blocks = ["${var.cidr}"]
   }
 
   # Allow all outbound traffic.
@@ -51,6 +51,6 @@ resource "aws_security_group" "circle_postgres_sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["${var.cidr}"]
+    #cidr_blocks = ["${var.cidr}"]
   }
 }
