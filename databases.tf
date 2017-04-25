@@ -24,10 +24,10 @@ resource "aws_db_instance" "circle_postgres" {
 
 resource "aws_db_subnet_group" "default" {
     name       = "circle-dbsubnet"
-    subnet_ids = ["${module.vpc.public_subnets}"]
+    subnet_ids = ["${var.aws_subnet_id}"]
 
     Tags {
-        Name      = "circle-dbsubnet"
+        Name      = "${var.prefix}_dbsubnet"
         Role      = "postgres"
         Terraform = "yes"
     }
