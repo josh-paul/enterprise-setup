@@ -26,7 +26,7 @@ resource "aws_db_subnet_group" "default" {
     name       = "${var.prefix}_dbsubnet"
     subnet_ids = ["${var.aws_subnet_id}"]
 
-    Tags {
+    tags {
         Name      = "${var.prefix}_dbsubnet"
         Role      = "postgres"
         Terraform = "yes"
