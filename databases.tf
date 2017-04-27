@@ -24,7 +24,7 @@ resource "aws_db_instance" "circle_postgres" {
 
 resource "aws_db_subnet_group" "default" {
     name       = "${var.prefix}_dbsubnet"
-    subnet_ids = ["${var.aws_subnet_id}"]
+    subnet_ids = ["${var.aws_subnet_id}","${var.aws_subnet_id_2}"]
 
     tags {
         Name      = "${var.prefix}_dbsubnet"
@@ -36,7 +36,7 @@ resource "aws_db_subnet_group" "default" {
 resource "aws_security_group" "circle_postgres_sg" {  
   name        = "${var.prefix}_postgres_sg"
   description = "RDS postgres servers (terraform-managed)"
-  #vpc_id      = "${module.vpc.vpc_id}"
+  vpc_id      = "${var.aws_vpc_id}"
 
   # Only postgres in
   ingress {

@@ -22,7 +22,7 @@ resource "aws_instance" "services" {
     root_block_device {
         volume_type = "gp2"
 	volume_size = "150"
-	delete_on_termination = false
+	delete_on_termination = true
     }
 
     user_data = <<EOF
@@ -36,10 +36,15 @@ echo '${var.circle_secret_passphrase}' > $config_dir/circle_secret_passphrase
 echo '${aws_sqs_queue.shutdown_queue.id}' > $config_dir/sqs_queue_url
 echo '${aws_s3_bucket.circleci_bucket.id}' > $config_dir/s3_bucket
 
+cat << 'EOF' >> /etc/circle-installation-customizations
+export CIRCLE_SECRETS_POSTGRES_MAIN_URI='postgres://"${var.postgres_db_master_user}":"${var.postgres_db_master_password}"@"${aws_db_instance.circle_postgres.address}":5432/"${var.postgres_db_master_user}"'
+`EOF`
+
+
 EOF
 
     lifecycle {
-        prevent_destroy = true
+        prevent_destroy = false
     }
 
 }
