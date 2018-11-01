@@ -44,6 +44,15 @@ iptables -I FORWARD -d 169.254.169.254 -p tcp -i docker0 -j DROP
 iptables -I FORWARD -d ${services_private_ip} -p tcp -i docker0 -m multiport ! --dports 80,443 -j DROP
 
 echo "-------------------------------------------"
+echo "           Installing ca-chain"
+echo "-------------------------------------------"
+apt-get install -y awscli
+aws s3 cp s3://ntnx-bootstrap-373628545353-us-west-2/circle/root.crt /usr/local/share/ca-certificates/root.crt --region us-west-2
+aws s3 cp s3://ntnx-bootstrap-373628545353-us-west-2/circle/intermediate.crt /usr/local/share/ca-certificates/intermediate.crt --region us-west-2
+update-ca-certificates
+#echo 'JVM_OPTS="-Djdk.tls.trustNameService=true"' >> /etc/environment
+
+echo "-------------------------------------------"
 echo "           Starting Builder"
 echo "-------------------------------------------"
 sudo docker run -d -p 443:443 -v /var/run/docker.sock:/var/run/docker.sock \

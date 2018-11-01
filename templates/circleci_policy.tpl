@@ -10,6 +10,19 @@
          ]
       },
       {
+          "Action" : ["s3:ListBucket"],
+          "Effect" : "Allow",
+          "Resource" : ["arn:aws:s3:::ntnx-bootstrap-373628545353-us-west-2"]
+      },
+      {
+          "Action" : [
+              "s3:ListObjects",
+              "s3:GetObject"
+          ],
+          "Effect" : "Allow",
+          "Resource" : ["arn:aws:s3:::ntnx-bootstrap-373628545353-us-west-2/circle/*"]
+      },
+      {
           "Action" : [
               "sqs:*"
           ],

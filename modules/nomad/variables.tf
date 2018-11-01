@@ -29,11 +29,11 @@ variable "services_private_ip" {
 }
 
 variable "max_instances" {
-  default = "2"
+  default = "20"
 }
 
 variable "desired_instances" {
-  default = "1"
+  default = "2"
 }
 
 variable "http_proxy" {}

@@ -13,6 +13,15 @@ echo "-------------------------------------------"
 apt-get update && apt-get -y upgrade
 
 echo "--------------------------------------------"
+echo "       Installing External Data Config"
+echo "--------------------------------------------"
+sudo apt-get install -y awscli
+aws s3 cp s3://ntnx-bootstrap-373628545353-us-west-2/circle/circle-ci-external-data-configs.tar.gz /tmp/circle-ci-external-data-configs.tar.gz --region us-west-2
+cd /tmp/
+tar -xzvf circle-ci-external-data-configs.tar.gz
+./external-data-config.sh
+
+echo "--------------------------------------------"
 echo "       Setting Private IP"
 echo "--------------------------------------------"
 export PRIVATE_IP="$(/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')"
